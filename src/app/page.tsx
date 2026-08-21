@@ -1,16 +1,16 @@
 import {
-    Navbar,
-    Hero,
+    ArchitectureSection,
     Capabilities,
     DeveloperSection,
-    OAuthSection,
-    SecuritySection,
-    ArchitectureSection,
-    TrustSection,
     FinalCTA,
     Footer,
-} from '@/components/landing';
-import { LanguageProvider } from '@/components/landing/LanguageContext';
+    Hero,
+    Navbar,
+    OAuthSection,
+    SecuritySection,
+    TrustSection,
+} from '@/app/_components/landing';
+import { LanguageProvider } from '@/app/_components/landing/LanguageContext';
 
 export default function Home() {
     return (

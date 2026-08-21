@@ -14,20 +14,17 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [language, setLanguageState] = useState<Language>(() => {
-        if (typeof window !== 'undefined') {
-            const savedLang = localStorage.getItem('authenticator_lang') as Language;
-            if (savedLang === 'en' || savedLang === 'pt') {
-                return savedLang;
-            }
+        const savedLang = localStorage.getItem('authenticator_lang') as Language;
+        if (savedLang === 'en' || savedLang === 'pt') {
+            return savedLang;
         }
+
         return 'pt';
     });
 
     const setLanguage = (lang: Language) => {
         setLanguageState(lang);
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('authenticator_lang', lang);
-        }
+        localStorage.setItem('authenticator_lang', lang);
     };
 
     const value = {
