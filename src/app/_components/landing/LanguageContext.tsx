@@ -13,14 +13,15 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [language, setLanguageState] = useState<Language>(() => {
-        if (typeof window === 'undefined') return 'pt';
+    const [language, setLanguageState] = useState<Language>('en');
+
+    React.useEffect(() => {
         const savedLang = localStorage.getItem('authenticator_lang') as Language;
         if (savedLang === 'en' || savedLang === 'pt') {
-            return savedLang;
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setLanguageState(savedLang);
         }
-        return 'pt';
-    });
+    }, []);
 
     const setLanguage = (lang: Language) => {
         setLanguageState(lang);

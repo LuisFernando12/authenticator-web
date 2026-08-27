@@ -91,7 +91,7 @@ export const Navbar: React.FC = () => {
                 <div className="hidden md:flex items-center gap-3">
                     <LanguageToggle />
                     <a
-                        href="https://github.com"
+                        href="https://github.com/LuisFernando12/Authenticator"
                         target="_blank"
                         rel="noreferrer"
                         className="p-2 text-zinc-400 hover:text-zinc-100 transition-colors"
