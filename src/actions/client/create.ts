@@ -1,17 +1,17 @@
+'use server';
 import api from '../../config/api';
+import { ClientSchema, ClientSchemaType } from './schema/client.schema';
 
-export interface IClientCreatePayload {
-    name: string;
-    redirectUris: Array<string>;
-    grantTypes: Array<string>;
-    scopes: Array<string>;
-    isConfidential: boolean;
-}
-export const createClient = async (payload: IClientCreatePayload) => {
+export const createClient = async (payload: ClientSchemaType) => {
+    if (ClientSchema.safeParse(payload).success === false) {
+        throw new Error('Error to create client: invalid payload');
+    }
     try {
-        const response = await api.post('/client', payload);
+        const response = await api.post('/client', {
+            ...payload,
+        });
         return response.data;
-    } catch (error) {
-        throw new Error('Invalid credentials', { cause: error });
+    } catch {
+        throw new Error('Failure to create client, try again later !');
     }
 };
