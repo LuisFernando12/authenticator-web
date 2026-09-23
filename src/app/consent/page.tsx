@@ -1,8 +1,26 @@
-import { Box, Container, Button, Field } from '@/components';
-
-export default function ConsentScreen(): React.ReactElement {
-    const scopes = ['email', 'phone', 'address', 'profile'].map((scope) => scope.toUpperCase());
-    const clientName = 'Fintech-X';
+import { Box, Button, Container, Field } from '@/components';
+import Link from 'next/link';
+interface ConsentScreenQueryParams {
+    responseType: string;
+    clientId: string;
+    redirectUri: string;
+    state: string;
+    scope: string;
+    codeChallenge?: string;
+    codeChallengeMethod?: string;
+    secret?: string;
+    oauthRequestId: string;
+}
+export default async function ConsentScreen({
+    searchParams,
+}: {
+    searchParams: Promise<ConsentScreenQueryParams>;
+}): Promise<React.ReactElement> {
+    const { ...consentParams } = await searchParams;
+    const params = new URLSearchParams(consentParams);
+    const scopes =
+        consentParams.scope.split('+').map((scope) => scope.toUpperCase()) || consentParams.scope.toUpperCase();
+    const clientName = consentParams.clientId.split('-')[0];
     const scopesFormatted =
         scopes.length > 2 ? scopes.join(', ') : scopes.length > 1 ? scopes[0] + ' and ' + scopes[1] : scopes[0];
     return (
@@ -16,15 +34,23 @@ export default function ConsentScreen(): React.ReactElement {
                     <span className="text-[10px] text-zinc-500 font-mono">Consent</span>
                 </div>
                 <div className="px-8 flex flex-col gap-6 items-center">
-                    <h1 className="text-xl font-bold font-mono text-zinc-100 text-center tracking-tight">OAuth 2.0 Authorization Request</h1>
+                    <h1 className="text-xl font-bold font-mono text-zinc-100 text-center tracking-tight">
+                        OAuth 2.0 Authorization Request
+                    </h1>
                     <p className="font-sans text-sm text-zinc-300 leading-relaxed text-justify">
-                        The client <strong className="text-cyan-400 font-mono">{clientName}</strong> wants to access your <strong className="text-zinc-100 font-mono">{scopesFormatted}</strong>. If
-                        you wish to consent to this request, click approve; otherwise, click cancel.
+                        The client <strong className="text-cyan-400 font-mono">{clientName}</strong> wants to access
+                        your <strong className="text-zinc-100 font-mono">{scopesFormatted}</strong>. If you wish to
+                        consent to this request, click approve; otherwise, click cancel.
                     </p>
                     <Field orientation="vertical" className="w-full gap-3">
-                        <Button type="submit" className="w-full font-semibold bg-zinc-100 text-zinc-900 hover:bg-zinc-200 transition-colors">
-                            Approve
-                        </Button>
+                        <Link href={`/login?${params.toString()}`}>
+                            <Button
+                                type="button"
+                                className="w-full font-semibold bg-zinc-100 text-zinc-900 hover:bg-zinc-200 transition-colors"
+                            >
+                                Approve
+                            </Button>
+                        </Link>
                         <Button
                             type="button"
                             variant="outline"
