@@ -1,14 +1,17 @@
 'use client';
 import { loginAuth } from '@/actions/auth/login.auth';
-import { loginOauth, OauthQueryParams } from '@/actions/oauth/login.oauth';
+import { loginOauth } from '@/actions/oauth/login.oauth';
+import { OauthQueryParams, OauthQueryParamsSchema } from '@/actions/oauth/schemas/login.schema';
+import { toast } from '@/components/ui/toast';
 import Link from 'next/link';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Field, FieldGroup, FieldLabel, Input } from '../../components';
 interface Props {
-    oauthParams: OauthQueryParams | null;
+    oauthParams?: OauthQueryParams;
+    type: 'oauth-login' | 'default';
 }
-export function LoginForm({ oauthParams }: Props) {
+export function LoginForm({ oauthParams, type }: Props) {
     const [error, setError] = useState<string>('');
     const form = useForm<{
         email: string;
@@ -18,12 +21,20 @@ export function LoginForm({ oauthParams }: Props) {
     const onSubmit = (data: { email: string; password: string }) => {
         setStartTransition(async () => {
             try {
-                if (oauthParams) {
-                    await loginOauth({ ...data, params: oauthParams });
-                } else {
+                if (type === 'default') {
                     await loginAuth(data);
                 }
+                if (type === 'oauth-login' && OauthQueryParamsSchema.safeParse(oauthParams).success) {
+                    await loginOauth({ ...data, params: oauthParams! });
+                } else {
+                    toast.add({
+                        title: 'Error',
+                        description: 'Invalid oauth login',
+                        type: 'error',
+                    });
+                }
                 form.reset();
+                return;
             } catch {
                 setError('Email or password incorrect');
             }

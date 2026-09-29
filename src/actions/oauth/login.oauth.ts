@@ -2,18 +2,8 @@
 
 import api from '@/config/api';
 import { redirect } from 'next/navigation';
+import { OauthQueryParams } from './schemas/login.schema';
 
-export interface OauthQueryParams {
-    responseType: string;
-    clientId: string;
-    redirectUri: string;
-    state: string;
-    scope: string;
-    codeChallenge?: string;
-    codeChallengeMethod?: string;
-    secret?: string;
-    oauthRequestId: string;
-}
 export interface OauthLoginPayload {
     email: string;
     password: string;

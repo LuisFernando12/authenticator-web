@@ -27,7 +27,6 @@ export const ClientForm = (): React.ReactElement => {
     };
 
     const onSubmit = (data: ClientSchemaType) => {
-        console.log('Form data submitted:', data);
         const isSafeParse = ClientSchema.safeParse(data);
         if (isSafeParse.success === false) {
             toast.add({

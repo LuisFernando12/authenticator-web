@@ -1,10 +1,7 @@
-import { OauthQueryParams } from '@/actions/oauth/login.oauth';
 import { LoginForm } from '@/app/_components/login-form';
 import { Box, Container } from '@/components';
 
-export default async function Login({ searchParams }: { searchParams: OauthQueryParams }) {
-    const oauthParams = await searchParams;
-
+export default async function Login() {
     return (
         <Container className="justify-center items-center">
             <Box className="gap-8" orientation="vertical">
@@ -15,7 +12,7 @@ export default async function Login({ searchParams }: { searchParams: OauthQuery
                     </span>
                     <span className="text-[10px] text-zinc-500 font-mono">Sign In</span>
                 </div>
-                <LoginForm oauthParams={oauthParams || null} />
+                <LoginForm type="default" />
             </Box>
         </Container>
     );

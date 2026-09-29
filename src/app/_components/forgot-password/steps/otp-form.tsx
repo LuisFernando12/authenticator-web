@@ -47,7 +47,6 @@ export function FormOTP({ sendOtp }: FormOTPProps) {
         setOtp({ ...otp, ['otp' + otpIndex]: parseInt(target.value) });
 
         if (target.value === '' && otpIndex > 1) {
-            console.log('focus previous input=', otpIndex - 1);
             const previousInput = document.querySelector(`[data-otp-id="${otpIndex - 1}"]`) as HTMLInputElement;
             previousInput.focus();
             return;
@@ -90,7 +89,11 @@ export function FormOTP({ sendOtp }: FormOTPProps) {
                         ))}
                     </div>
                     <Field orientation="vertical" className="px-0 h-10 mt-2">
-                        <Button type="submit" className="w-full font-semibold bg-zinc-100 text-zinc-900 hover:bg-zinc-200 transition-colors" disabled={disableButton}>
+                        <Button
+                            type="submit"
+                            className="w-full font-semibold bg-zinc-100 text-zinc-900 hover:bg-zinc-200 transition-colors"
+                            disabled={disableButton}
+                        >
                             Send Code
                         </Button>
                     </Field>

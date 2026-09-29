@@ -43,7 +43,7 @@ export default async function ConsentScreen({
                         consent to this request, click approve; otherwise, click cancel.
                     </p>
                     <Field orientation="vertical" className="w-full gap-3">
-                        <Link href={`/login?${params.toString()}`}>
+                        <Link href={`/oauth/login?${params.toString()}`}>
                             <Button
                                 type="button"
                                 className="w-full font-semibold bg-zinc-100 text-zinc-900 hover:bg-zinc-200 transition-colors"
