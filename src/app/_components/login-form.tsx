@@ -4,6 +4,7 @@ import { loginOauth } from '@/actions/oauth/login.oauth';
 import { OauthQueryParams, OauthQueryParamsSchema } from '@/actions/oauth/schemas/login.schema';
 import { toast } from '@/components/ui/toast';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Field, FieldGroup, FieldLabel, Input } from '../../components';
@@ -18,25 +19,28 @@ export function LoginForm({ oauthParams, type }: Props) {
         password: string;
     }>();
     const [transition, setStartTransition] = useTransition();
+    const route = useRouter();
     const onSubmit = (data: { email: string; password: string }) => {
         setStartTransition(async () => {
             try {
                 if (type === 'default') {
                     await loginAuth(data);
+                    return route.push('/dashboard');
                 }
                 if (type === 'oauth-login' && OauthQueryParamsSchema.safeParse(oauthParams).success) {
-                    await loginOauth({ ...data, params: oauthParams! });
+                    return await loginOauth({ ...data, params: oauthParams! });
                 } else {
                     toast.add({
                         title: 'Error',
                         description: 'Invalid oauth login',
                         type: 'error',
                     });
+                    return;
                 }
-                form.reset();
-                return;
             } catch {
                 setError('Email or password incorrect');
+            } finally {
+                form.reset();
             }
         });
     };

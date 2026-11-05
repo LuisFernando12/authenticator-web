@@ -1,6 +1,7 @@
 {
     "editor.autoClosingBrackets": "always",
     "editor.formatOnSave": true,
+    "editor.fontSize": 14,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "always",
